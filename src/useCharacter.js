@@ -44,6 +44,7 @@ export function useCharacters(page, species = "Todos") {
           setCharacters([]);
           setTotalPages(1);
         }
+        
       } finally {
         if (!controller.signal.aborted) {
           setLoading(false);
