@@ -1,21 +1,55 @@
+
 import PropTypes from "prop-types";
+import "../styles/FilterBar.css";
 
+const ESPECIES = [
+  "Human",
+  "Alien",
+  "Humanoid",
+  "Animal",
+  "Robot",
+  "Mythological Creature",
+  "Poopybutthole",
+  "Cronenberg",
+  "Disease",
+  "Unknown",
+];
 
-function Filter({tipos,tipoActivo,onSeleccionar})
-{
+function FilterBar({ especieActiva, onSeleccionar }) {
+  return (
+    <nav
+      className="filter-bar"
+      aria-label="Filtrar por especie"
+    >
+      <button
+        type="button"
+        className={`filter-btn ${
+          especieActiva === "Todos" ? "active" : ""
+        }`}
+        onClick={() => onSeleccionar("Todos")}
+      >
+        Todos
+      </button>
 
-    return(
-        <nav className=""></nav>
-
-    );
+      {ESPECIES.map((especie) => (
+        <button
+          key={especie}
+          type="button"
+          className={`filter-btn ${
+            especieActiva === especie ? "active" : ""
+          }`}
+          onClick={() => onSeleccionar(especie)}
+        >
+          {especie}
+        </button>
+      ))}
+    </nav>
+  );
 }
 
-//para definir los proptypes las estructura es:
-// nombres del componente / funcion, .propTypes, el contenida
-FilterBar.propTypes={
-    tipos:PropTypes.arrayOf(PropTypes.string).isRequired,
-    tipoActivo:PropTypes.string.isRequired,
-    onSeleccionar:PropTypes.func.isRequired
+FilterBar.propTypes = {
+  especieActiva: PropTypes.string.isRequired,
+  onSeleccionar: PropTypes.func.isRequired,
 };
 
 export default FilterBar;

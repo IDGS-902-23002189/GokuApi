@@ -1,0 +1,98 @@
+
+
+
+/* Lista de personajes */
+.cards-container {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Elemento de la lista */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  border-left: 5px solid #863bff;
+}
+
+.card:hover {
+  transform: translateX(4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Encabezado: imagen y nombre */
+.card__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.card__image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.card__title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+/* Estado del personaje */
+.card__badge {
+  display: inline-block;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background-color: #f0e8ff;
+  color: #6929cc;
+  width: fit-content;
+}
+
+/* Descripción */
+.card__description {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+/* Pie del elemento */
+.card__footer {
+  font-size: 0.8rem;
+  color: #999;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 0.75rem;
+}
+
+/* Adaptación para celulares */
+@media (max-width: 480px) {
+  .card {
+    padding: 1rem;
+  }
+
+  .card__image {
+    width: 64px;
+    height: 64px;
+  }
+
+  .card__title {
+    font-size: 1rem;
+  }
+}

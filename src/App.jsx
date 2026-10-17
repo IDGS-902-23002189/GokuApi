@@ -1,71 +1,93 @@
 
-import { useEffect, useState } from "react";
-import { getCharacters } from "./services/api";
-import CharacterList from "./components/CharacterList";
-import "./App.css";
+import { useState } from "react";
+import { useCharacters} from "./useCharacter";
+import LanguageCard from "./components/LanguageCard";
+import FilterBar from "./components/FilterBar";
 
 function App() {
-  const [characters, setCharacters] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [especieActiva, setEspecieActiva] = useState("Todos");
 
-  useEffect(() => {
-    async function loadCharacters() {
-      try {
-        setLoading(true);
-        setError("");
+  const {
+    characters,
+    totalPages,
+    loading,
+    error,
+  } = useCharacters(page, especieActiva);
 
-        const data = await getCharacters(page);
-
-        setCharacters(data.items);
-        setTotalPages(data.meta.totalPages);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadCharacters();
-  }, [page]);
+  function seleccionarEspecie(especie) {
+    setEspecieActiva(especie);
+    setPage(1);
+  }
 
   return (
-    <main className="app">
-      <h1>Dragon Ball</h1>
-      <p>Explora los personajes del universo Dragon Ball</p>
+    <div className="app-container">
+      <header className="app-header">
+        <h1>Monos de Rick y Morty</h1>
+        <p>Explora los personajes y filtra por especie.</p>
+      </header>
 
-      {loading && <p>Cargando personajes...</p>}
+      <FilterBar
+        especieActiva={especieActiva}
+        onSeleccionar={seleccionarEspecie}
+      />
 
-      {error && <p className="error">{error}</p>}
+      <main>
+        {loading && <p>Cargando personajes...</p>}
 
-      {!loading && !error && (
-        <>
-          <CharacterList characters={characters} />
+        {error && (
+          <p className="no-results">
+            Error: {error}
+          </p>
+        )}
 
-          <div className="pagination">
-            <button
-              onClick={() => setPage(page - 1)}
-              disabled={page === 1}
-            >
-              Anterior
-            </button>
+        {!loading && !error && (
+          <>
+            {characters.length > 0 ? (
+              <ul className="cards-container">
+                {characters.map((character) => (
+                  <LanguageCard
+                    key={character.id}
+                    image={character.image}
+                    name={character.name}
+                    species={character.species}
+                    status={character.status}
+                  />
+                ))}
+              </ul>
+            ) : (
+              <p className="no-results">
+                No se encontraron personajes.
+              </p>
+            )}
 
-            <span>
-              Página {page} de {totalPages}
-            </span>
+            {characters.length > 0 && (
+              <nav className="pagination">
+                <button
+                  type="button"
+                  disabled={page === 1}
+                  onClick={() => setPage(page - 1)}
+                >
+                  Anterior
+                </button>
 
-            <button
-              onClick={() => setPage(page + 1)}
-              disabled={page === totalPages}
-            >
-              Siguiente
-            </button>
-          </div>
-        </>
-      )}
-    </main>
+                <span>
+                  Página {page} de {totalPages}
+                </span>
+
+                <button
+                  type="button"
+                  disabled={page === totalPages}
+                  onClick={() => setPage(page + 1)}
+                >
+                  Siguiente
+                </button>
+              </nav>
+            )}
+          </>
+        )}
+      </main>
+    </div>
   );
 }
 
