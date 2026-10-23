@@ -1,50 +1,57 @@
 
 import { useEffect, useState } from "react";
 
-const API_URL = "https://rickandmortyapi.com/api/character";
-
-export function useCharacters(page, species = "Todos") {
+export function useCharacters(page, especieActiva, busqueda) {
   const [characters, setCharacters] = useState([]);
-  const [totalPages, setTotalPages] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const controller = new AbortController();
 
-    async function loadCharacters() {
+    async function obtenerPersonajes() {
       setLoading(true);
       setError(null);
 
+      const params = new URLSearchParams();
+      params.set("page", page);
+
+      if (especieActiva !== "Todos") {
+        params.set("species", especieActiva);
+      }
+
+      if (busqueda.trim()) {
+        params.set("name", busqueda.trim());
+      }
+
       try {
-        const params = new URLSearchParams();
-
-        params.set("page", page);
-
-        if (species !== "Todos") {
-          params.set("species", species);
-        }
-
-        const response = await fetch(
-          `${API_URL}?${params.toString()}`,
+        const respuesta = await fetch(
+          `https://rickandmortyapi.com/api/character/?${params}`,
           { signal: controller.signal }
         );
 
-        if (!response.ok) {
-          throw new Error(`Error HTTP: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        setCharacters(data.results);
-        setTotalPages(data.info.pages);
-      } catch (error) {
-        if (error.name !== "AbortError") {
-          setError(error.message);
+        // La API responde 404 cuando no encuentra coincidencias.
+        if (respuesta.status === 404) {
           setCharacters([]);
-          setTotalPages(1);
+          setTotalPages(0);
+          return;
         }
-        
+
+        if (!respuesta.ok) {
+          throw new Error("No se pudieron cargar los personajes.");
+        }
+
+        const datos = await respuesta.json();
+
+        setCharacters(datos.results);
+        setTotalPages(datos.info.pages);
+      } catch (err) {
+        if (err.name !== "AbortError") {
+          setError(err.message);
+          setCharacters([]);
+          setTotalPages(0);
+        }
       } finally {
         if (!controller.signal.aborted) {
           setLoading(false);
@@ -52,10 +59,15 @@ export function useCharacters(page, species = "Todos") {
       }
     }
 
-    loadCharacters();
+    obtenerPersonajes();
 
     return () => controller.abort();
-  }, [page, species]);
+  }, [page, especieActiva, busqueda]);
 
-  return { characters, totalPages, loading, error };
+  return {
+    characters,
+    totalPages,
+    loading,
+    error,
+  };
 }
