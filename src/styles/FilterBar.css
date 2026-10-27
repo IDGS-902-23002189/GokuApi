@@ -1,0 +1,88 @@
+
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 24px 0;
+  padding: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: #ffffff;
+  border: 1px solid #eee7f7;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(53, 30, 82, 0.06);
+  scrollbar-width: thin;
+  scrollbar-color: #c9b5e8 #f7f3fc;
+}
+
+.filter-bar::-webkit-scrollbar {
+  height: 6px;
+}
+
+.filter-bar::-webkit-scrollbar-track {
+  background: #f7f3fc;
+  border-radius: 10px;
+}
+
+.filter-bar::-webkit-scrollbar-thumb {
+  background: #c9b5e8;
+  border-radius: 10px;
+}
+
+.filter-btn {
+  flex: 0 0 auto;
+  padding: 10px 17px;
+  color: #665777;
+  background: #faf8fd;
+  border: 1px solid #e9e0f3;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.filter-btn:hover {
+  color: #6929cc;
+  background: #f1e8ff;
+  border-color: #d5c0f4;
+}
+
+.filter-btn:focus-visible {
+  outline: 3px solid rgba(105, 41, 204, 0.25);
+  outline-offset: 3px;
+}
+
+.filter-btn.active {
+  color: #ffffff;
+  background: #6929cc;
+  border-color: #6929cc;
+  box-shadow: 0 3px 8px rgba(105, 41, 204, 0.2);
+}
+
+.filter-btn.active:hover {
+  background: #5520a8;
+  border-color: #5520a8;
+}
+
+@media (max-width: 600px) {
+  .filter-bar {
+    gap: 8px;
+    margin: 16px 0;
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .filter-btn {
+    padding: 9px 14px;
+    font-size: 12px;
+  }
+}

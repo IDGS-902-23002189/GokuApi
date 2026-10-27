@@ -1,0 +1,86 @@
+.search-bar {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 20px 0;
+  padding: 12px;
+  background: #ffffff;
+  border: 1px solid #eee7f7;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(53, 30, 82, 0.06);
+}
+
+/* Campo de búsqueda */
+.search-bar input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 16px;
+  color: #342448;
+  background: #faf8fd;
+  border: 1px solid #e9e0f3;
+  border-radius: 10px;
+  outline: none;
+  font-family: inherit;
+  font-size: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Texto de ejemplo */
+.search-bar input::placeholder {
+  color: #9a8ba9;
+}
+
+/* Campo seleccionado */
+.search-bar input:focus {
+  background: #ffffff;
+  border-color: #8046d7;
+  box-shadow: 0 0 0 3px rgba(128, 70, 215, 0.12);
+}
+
+/* Botón Buscar */
+.search-btn {
+  flex-shrink: 0;
+  padding: 12px 22px;
+  color: #ffffff;
+  background: #6929cc;
+  border: 1px solid #6929cc;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+/* Efecto al pasar el cursor */
+.search-btn:hover {
+  background: #5520a8;
+  border-color: #5520a8;
+}
+
+/* Efecto al presionar */
+.search-btn:active {
+  transform: scale(0.98);
+}
+
+/* Accesibilidad al usar el teclado */
+.search-btn:focus-visible {
+  outline: 3px solid rgba(105, 41, 204, 0.25);
+  outline-offset: 3px;
+}
+
+/* Adaptación para celulares */
+@media (max-width: 480px) {
+  .search-bar {
+    flex-direction: column;
+    padding: 12px;
+  }
+
+  .search-bar input,
+  .search-btn {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}

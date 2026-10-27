@@ -1,0 +1,138 @@
+/* Página de inicio de sesión */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 75vh;
+  padding: 30px 16px;
+  box-sizing: border-box;
+}
+
+/* Título */
+.login-container h1 {
+  width: 100%;
+  max-width: 380px;
+  margin: 0 0 10px;
+  color: #6929cc;
+  font-size: 30px;
+  text-align: center;
+}
+
+/* Descripción */
+.login-container > p {
+  width: 100%;
+  max-width: 380px;
+  margin: 0 0 24px;
+  color: #766783;
+  font-size: 15px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* Formulario como tarjeta */
+.login-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 380px;
+  margin: 0;
+  padding: 28px;
+  background: #ffffff;
+  border: 1px solid #eee7f7;
+  border-radius: 18px;
+  box-shadow: 0 8px 28px rgba(53, 30, 82, 0.08);
+  box-sizing: border-box;
+}
+
+/* Grupo de cada campo */
+.login-container form div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+/* Etiquetas */
+.login-container label {
+  color: #342448;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Campos de texto */
+.login-container input {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 11px 12px;
+  color: #342448;
+  background: #faf8fd;
+  border: 1px solid #e9e0f3;
+  border-radius: 9px;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.login-container input:focus {
+  background: #ffffff;
+  border-color: #8046d7;
+  box-shadow: 0 0 0 3px rgba(128, 70, 215, 0.12);
+}
+
+/* Botón de entrada */
+.login-container form button {
+  width: 100%;
+  min-height: 46px;
+  margin-top: 2px;
+  padding: 12px;
+  color: #ffffff;
+  background: #6929cc;
+  border: none;
+  border-radius: 9px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.login-container form button:hover {
+  background: #5520a8;
+}
+
+.login-container form button:focus-visible {
+  outline: 3px solid rgba(105, 41, 204, 0.25);
+  outline-offset: 3px;
+}
+
+/* Mensaje de error */
+.login-container form .no-results {
+  margin: 0;
+  padding: 11px;
+  color: #b42318;
+  background: #fff1f0;
+  border: 1px solid #ffd5d2;
+  border-radius: 8px;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* Adaptación para celulares */
+@media (max-width: 480px) {
+  .login-container {
+    min-height: 70vh;
+    padding: 24px 16px;
+  }
+
+  .login-container h1 {
+    font-size: 26px;
+  }
+
+  .login-container form {
+    padding: 22px 18px;
+  }
+}

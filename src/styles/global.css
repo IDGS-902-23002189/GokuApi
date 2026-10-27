@@ -168,3 +168,18 @@ body {
     padding: 0.8rem;
   }
 }
+.favoritos-imagen-link {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.favoritos-imagen {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow: 0 4px 18px rgba(53, 30, 82, 0.12);
+}

@@ -2,6 +2,7 @@
 import PropTypes from "prop-types";
 import "../styles/BarraBusqueda.css";
 
+
 function BarraBusqueda({ textoBusqueda, onCambiar, onBuscar }) {
   return (
     <div className="search-bar">

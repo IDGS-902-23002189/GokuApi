@@ -1,144 +1,104 @@
 
-import { useState } from "react";
-import { useCharacters } from "./useCharacter";
-import LanguageCard from "./components/LanguageCard";
-import FilterBar from "./components/FilterBar";
-import BarraBusqueda from "./components/BarraBusqueda";
-import UltimaBusqueda from "./components/UltimaBusqueda";
+import { Navigate, NavLink, Route, Routes } from "react-router-dom";
+
+import { useAuth } from "./auth/AuthContext";
+import RutaPrivada from "./auth/RutaPrivada";
+
+import Login from "./pages/Login";
+import Personajes from "./pages/Personajes";
+import PersonajeDetalle from "./pages/PersonajeDetalle";
+import Favoritos from "./pages/Favoritos";
+import NotFound from "./pages/NotFound";
+import "./styles/Navbar.css";
+import "./styles/BarraBusqueda.css";
+import "./styles/FilterBar.css";
+import "./styles/LanguageCard.css";
+import "./styles/global.css";
 
 function App() {
-  const [page, setPage] = useState(1);
-
-  const [especieActiva, setEspecieActiva] = useState(
-    () => localStorage.getItem("ultimaEspecie") || "Todos"
-  );
-
-  const [textoBusqueda, setTextoBusqueda] = useState(
-    () => localStorage.getItem("ultimaBusqueda") || ""
-  );
-
-  const [busqueda, setBusqueda] = useState(
-    () => localStorage.getItem("ultimaBusqueda") || ""
-  );
-
-  const [ultimaBusqueda, setUltimaBusqueda] = useState(
-    () => localStorage.getItem("ultimaBusqueda") || ""
-  );
-
-  const {
-    characters,
-    totalPages,
-    loading,
-    error,
-  } = useCharacters(page, especieActiva, busqueda);
-
-  function seleccionarEspecie(especie) {
-    setEspecieActiva(especie);
-    localStorage.setItem("ultimaEspecie", especie);
-    setPage(1);
-  }
-
-  function buscarPersonaje() {
-    const texto = textoBusqueda.trim();
-
-    setBusqueda(texto);
-    setPage(1);
-
-    if (texto !== "") {
-      localStorage.setItem("ultimaBusqueda", texto);
-      setUltimaBusqueda(texto);
-    } else {
-      localStorage.removeItem("ultimaBusqueda");
-      setUltimaBusqueda("");
-    }
-  }
-
-  function recuperarUltimaBusqueda() {
-    const guardada = localStorage.getItem("ultimaBusqueda") || "";
-
-    setTextoBusqueda(guardada);
-    setBusqueda(guardada);
-    setPage(1);
-  }
+  const { autenticado, usuario, logout } = useAuth();
 
   return (
     <div className="app-container">
-      <header className="app-header">
-        <h1>Monos de Rick y Morty</h1>
-        <p>
-          Explora los personajes, filtra por especie y busca por nombre.
-        </p>
-      </header>
+      
+{autenticado && (
+  <nav className="navbar">
+    <NavLink to="/personajes" className="navbar-link">
+      Inicio
+    </NavLink>
 
-      <FilterBar
-        especieActiva={especieActiva}
-        onSeleccionar={seleccionarEspecie}
-      />
+    <NavLink to="/favoritos" className="navbar-link">
+      Favoritos
+    </NavLink>
 
-      <BarraBusqueda
-        textoBusqueda={textoBusqueda}
-        onCambiar={setTextoBusqueda}
-        onBuscar={buscarPersonaje}
-      />
+    <span className="navbar-user">
+      Hola, {usuario}
+    </span>
 
-      <UltimaBusqueda
-        onRecuperar={recuperarUltimaBusqueda}
-        deshabilitado={!ultimaBusqueda}
-      />
+    <button
+      type="button"
+      className="navbar-logout"
+      onClick={logout}
+    >
+      Cerrar sesión
+    </button>
+  </nav>
+)}
 
-      <main>
-        {loading && <p>Cargando personajes...</p>}
+      <Routes>
+        {/* Redirigir según el estado de la sesión */}
+        <Route
+          path="/"
+          element={
+            <Navigate
+              to={autenticado ? "/personajes" : "/login"}
+              replace
+            />
+          }
+        />
 
-        {!loading && error && (
-          <p className="no-results">Error: {error}</p>
-        )}
+        {/* Inicio de sesión */}
+        <Route
+          path="/login"
+          element={<Login />}
+        />
 
-        {!loading && !error && (
-          <>
-            {characters.length > 0 ? (
-              <ul className="cards-container">
-                {characters.map((character) => (
-                  <LanguageCard
-                    key={character.id}
-                    image={character.image}
-                    name={character.name}
-                    species={character.species}
-                    status={character.status}
-                  />
-                ))}
-              </ul>
-            ) : (
-              <p className="no-results">
-                No se encontraron personajes.
-              </p>
-            )}
+        {/* Catálogo de personajes */}
+        <Route
+          path="/personajes"
+          element={
+            <RutaPrivada>
+              <Personajes />
+            </RutaPrivada>
+          }
+        />
 
-            {characters.length > 0 && totalPages > 1 && (
-              <nav className="pagination" aria-label="Paginación">
-                <button
-                  type="button"
-                  disabled={page <= 1 || loading}
-                  onClick={() => setPage((actual) => actual - 1)}
-                >
-                  Anterior
-                </button>
+        {/* Detalles de un personaje */}
+        <Route
+          path="/personaje/:id"
+          element={
+            <RutaPrivada>
+              <PersonajeDetalle />
+            </RutaPrivada>
+          }
+        />
 
-                <span>
-                  Página {page} de {totalPages}
-                </span>
+        {/* Favoritos */}
+        <Route
+          path="/favoritos"
+          element={
+            <RutaPrivada>
+              <Favoritos />
+            </RutaPrivada>
+          }
+        />
 
-                <button
-                  type="button"
-                  disabled={page >= totalPages || loading}
-                  onClick={() => setPage((actual) => actual + 1)}
-                >
-                  Siguiente
-                </button>
-              </nav>
-            )}
-          </>
-        )}
-      </main>
+        {/* Ruta inexistente */}
+        <Route
+          path="*"
+          element={<NotFound />}
+        />
+      </Routes>
     </div>
   );
 }
