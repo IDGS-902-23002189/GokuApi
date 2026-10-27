@@ -1,4 +1,4 @@
-/* Página de inicio de sesión */
+
 .login-container {
   display: flex;
   flex-direction: column;
@@ -9,7 +9,6 @@
   box-sizing: border-box;
 }
 
-/* Título */
 .login-container h1 {
   width: 100%;
   max-width: 380px;
