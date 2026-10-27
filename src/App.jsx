@@ -9,7 +9,7 @@ import Personajes from "./pages/Personajes";
 import PersonajeDetalle from "./pages/PersonajeDetalle";
 import Favoritos from "./pages/Favoritos";
 import NotFound from "./pages/NotFound";
-import "./styles/Navbar.css";
+import "./styles/NavBar.css";
 import "./styles/BarraBusqueda.css";
 import "./styles/FilterBar.css";
 import "./styles/LanguageCard.css";
